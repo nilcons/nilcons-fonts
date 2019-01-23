@@ -2,13 +2,16 @@ First: git clone this to `/usr/share/nilcons-fonts`.
 
 Then put this into your X session init file (or bashrc, as you wish):
 
-    [ -d /usr/share/nilcons-fonts ] && {
+    NILCONS_FONTS=/usr/share/nilcons-fonts
+    [ -d $NILCONS_FONTS ] && {
       # Use only nilcons-fonts for fontconfig
       export FONTCONFIG_FILE=ncfonts.conf
-      export FONTCONFIG_PATH=/usr/share/nilcons-fonts
+      export FONTCONFIG_PATH=$NILCONS_FONTS
 
-      # Do not use traditional X fonts, only the emergency built-ins
-      xset fp= built-ins
+      # Control the traditional X fonts in the same way
+      xset fp= $NILCONS_FONTS/xfonts,built-ins
+
+      [ -e $NILCONS_FONTS/user/xfonts/fonts.dir ] && xset +fp $NILCONS_FONTS/user/xfonts
     }
 
 (We have to use `/usr/share/<something>`, because there are a lot of
