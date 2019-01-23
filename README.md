@@ -1,33 +1,27 @@
-First: git clone this to `/usr/share/fonts/fonts-nilcons` (chown this
-to yourself and chmod 0700 it).
-
-Since we chmod 0700 the dir, other users will not be disturbed, if
-you decide to go back to system fontconfig yourself to test something,
-don't forget to chmod 0000 this directory temporarily.
+First: git clone this to `/usr/share/nilcons-fonts`.
 
 Then put this into your X session init file (or bashrc, as you wish):
 
-    [ -d /usr/share/fonts/fonts-nilcons ] && {
-      # Use only fonts-nilcons for fontconfig
+    [ -d /usr/share/nilcons-fonts ] && {
+      # Use only nilcons-fonts for fontconfig
       export FONTCONFIG_FILE=ncfonts.conf
-      export FONTCONFIG_PATH=/usr/share/fonts/fonts-nilcons
+      export FONTCONFIG_PATH=/usr/share/nilcons-fonts
 
       # Do not use traditional X fonts, only the emergency built-ins
       xset fp= built-ins
     }
 
-(We have to use `/usr/share/fonts/<something>`, because there are a lot of
+(We have to use `/usr/share/<something>`, because there are a lot of
 VERY-VERY hard to debug sandboxing measures in GNU/Linux nowadays. E.g.
 AppArmor is kind of easy, but Firefox sandbox is a nightmare.  Random
-complicated apps will not work if you try somewhere else.  If you must,
-then use `~/.config/fonts-nilcons`, but you have been warned.  See:
+complicated apps will not work if you try somewhere else.  See:
 https://github.com/mozilla/gecko-dev/blob/master/security/sandbox/linux/broker/SandboxBrokerPolicyFactory.cpp)
 
 Fontconfig 2.12 (nix @2019-01-21):
   - understands `FONTCONFIG_{FILE,PATH}`
-  - with the above config only reads `/usr/share/fonts/fonts-nilcons/*`
+  - with the above config only reads `/usr/share/nilcons-fonts/*`
   - doesn't understand `FONTCONFIG_SYSDIR`
-  - works if proper configuration given at `/usr/share/fonts/fonts-nilcons/ncfonts.conf`
+  - works if proper configuration given at `/usr/share/nilcons-fonts/ncfonts.conf`
 
 Fontconfig 2.13 (debian @2019-01-21):
   - would understood `FONTCONFIG_SYSDIR`
@@ -35,7 +29,7 @@ Fontconfig 2.13 (debian @2019-01-21):
   - fortunately `/usr/share/fontconfig` is only parsed, not loaded,
     and merge request is already submitted to fix this
     (https://gitlab.freedesktop.org/fontconfig/fontconfig/merge_requests/26)
-  - otherwise only reads `/usr/share/fonts/fonts-nilcons/*`
+  - otherwise only reads `/usr/share/nilcons-fonts/*`
   - works if proper configuration supplied there
 
 Use cases for this knowledge:
